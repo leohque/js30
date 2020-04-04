@@ -3,7 +3,6 @@ node_modules/
 *.log
 haters/
 .idea/
-02-jsclock/
 03-cssvariables/
 04-arraycardio1/
 05-flexpanelgallery/
