@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>DJ Kitty's Music Maker</title>
+  <meta content="width=device-width, initial-scale=1" name="viewport" />
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -24,7 +25,7 @@
       </div>
       <div data-key="82" class="key">
         <kbd>R</kbd>
-        <span class="sound">mario jump</span>
+        <span class="sound">jump</span>
       </div>
       <div data-key="84" class="key">
         <kbd>T</kbd>
@@ -100,11 +101,11 @@
       </div>
       <div data-key="67" class="key">
         <kbd>C</kbd>
-        <span class="sound">drumble</span>
+        <span class="sound">drumbl</span>
       </div>
       <div data-key="86" class="key">
         <kbd>V</kbd>
-        <span class="sound">drumblehard</span>
+        <span class="sound">drumbl2</span>
       </div>
       <div data-key="66" class="key">
         <kbd>B</kbd>
@@ -154,32 +155,41 @@
   <audio data-key="77" src="sounds/toxic.mp3"></audio>
 
 <script>
+  function pressPlay(audio, key) {
+      if (!audio) return;
+      audio.currentTime = 0;
+      audio.play();
+      key.classList.add('playing');
+  }
 
   function playSound(e) {
-    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
-    const key = document.querySelector(`.key[data-key="${e.keyCode}"`);
-    if (!audio) return;
+    if (e.keyCode) {
+      const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+      const key = document.querySelector(`.key[data-key="${e.keyCode}"`);
 
-    audio.currentTime = 0;
-    audio.play();
+      pressPlay(audio, key);
+    }
+    else {
+      const audio = document.querySelector(`audio[data-key="${e.currentTarget.dataset.key}"]`);
+      const key = document.querySelector(`.key[data-key="${e.currentTarget.dataset.key}"`);
 
-    key.classList.add('playing');
-
+      pressPlay(audio, key);
+    }
   }
 
   function removeTransition(e) {
       if(e.propertyName !== 'transform') return;
       this.classList.remove('playing');
-
   }
 
   const keys = document.querySelectorAll('.key');
   keys.forEach(key => {
+    key.addEventListener('click', playSound);
     key.addEventListener('transitionend', removeTransition);
+    key.addEventListener('click', removeTransition);
   });
 
   window.addEventListener('keydown', playSound);
-
 </script>
 
 
