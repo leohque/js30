@@ -3,7 +3,6 @@ node_modules/
 *.log
 haters/
 .idea/
-04-arraycardio1/
 05-flexpanelgallery/
 06-typeahead/
 07-arraycardio2/
