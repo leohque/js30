@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HTML5 Canvas</title>
 </head>
 <body>
@@ -22,21 +23,30 @@
   let hue = 0;
   let direction = true;
 
-  function draw(e) {
-    if(!isDrawing) return; // stop  function from running when they are not mousedown
-    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+  function drawing(x, y) {
     ctx.beginPath();
     ctx.moveTo(lastX, lastY);
-    ctx.lineTo(e.offsetX, e.offsetY);
+    ctx.lineTo(x, y);
     ctx.stroke();
-    [lastX, lastY] = [e.offsetX, e.offsetY];
-    hue++;
+    [lastX, lastY] = [x, y];
+  }
 
+  function draw(e) {
+    console.log(e);
+    if(!isDrawing) return; // stop  function from running when they are not mousedown
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+
+    if (e.type === 'touchmove') {
+      drawing(e.touches[0].clientX, e.touches[0].clientY);
+    } else {
+      drawing(e.offsetX, e.offsetY);
+    }
+
+    hue++;
     if(hue >= 360) {
       hue = 0;
     }
-
-    if(ctx.lineWidth >= 80 || ctx.lineWidth <= 1) { direction = !direction; }
+    if(ctx.lineWidth >= 50 || ctx.lineWidth <= 1) { direction = !direction; }
     if(direction) { ctx.lineWidth++ } else { ctx.lineWidth-- }
 
   }
@@ -49,10 +59,22 @@
   canvas.addEventListener('mouseup', () => isDrawing = false);
   canvas.addEventListener('mouseout', () => isDrawing = false);
 
+  canvas.addEventListener('touchstart', (e) => {
+    isDrawing = true;
+    [lastX, lastY] = [e.touches[0].clientX, e.touches[0].clientY];
+  });
+  canvas.addEventListener('touchmove', draw);
+  canvas.addEventListener('touchend', () => {
+      e.preventDefault();
+      isDrawing = false;
+    });
+
 </script>
 <style>
   html, body {
     margin: 0;
+    overflow: hidden;
+    position:fixed;
   }
 </style>
 
