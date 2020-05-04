@@ -3,8 +3,6 @@ node_modules/
 *.log
 haters/
 .idea/
-09-devtoolsdomination/
-10-holdshiftcheckbox/
 11-customvideo/
 12-keysequence/
 13-slideinonscroll/
