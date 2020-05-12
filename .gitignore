@@ -3,7 +3,6 @@ node_modules/
 *.log
 haters/
 .idea/
-11-customvideo/
 12-keysequence/
 13-slideinonscroll/
 14-jsrefvscopy/
